@@ -182,3 +182,145 @@ def game_dict():
             ]
         }
     }
+
+
+def num_points_per_game(player_name):
+    teams = game_dict()
+    for team in teams.values():
+        for player in team['players']:
+            if player['name'] == player_name:
+                return player['points_per_game']
+    return None  # Return None if the player is not found
+
+# Example usage
+print(num_points_per_game("Jarrett Allen"))
+
+
+def player_age(player_name):
+    teams = game_dict()
+    for team in teams.values():
+        for player in team['players']:
+            if player['name'] == player_name:
+                return player['age']
+    return None  # Return None if the player is not found
+
+# Example usage
+print(player_age("Bradley Beal"))
+
+
+def team_color(team_name):
+    teams = game_dict()
+    for team in teams.values():
+        if team['team_name'] == team_name:
+            return team['colors']
+    return None  # Return None if the team is not found
+
+# Example usage
+print(team_color("Cleveland Cavaliers"))
+
+
+def team_height(team_name):
+    teams = game_dict()
+    for team in teams.values():
+        if team['team_name'] == team_name:
+            total_height = sum(player['height_inches'] for player in team['players'])
+            num_players = len(team['players'])
+            return total_height / num_players if num_players > 0 else 0
+    return None  # Return None if the team is not found
+
+# Example usage
+print(team_height("Washington Wizards"))
+
+
+def team_names():
+    teams = game_dict()
+    return [teams['home']['team_name'], teams['away']['team_name']]
+print
+
+print(team_names()) 
+
+def player_numbers(team_name):
+    teams = game_dict()
+    for team in teams.values():
+        if team['team_name'] == team_name:
+            return [player['number'] for player in team['players']]
+    return []
+
+# Example usage
+print(player_numbers("Cleveland Cavaliers"))
+
+
+def player_stats(player_name):
+    teams = game_dict()
+    for team in teams.values():
+        for player in team['players']:
+            if player['name'] == player_name:
+                return player
+    return None  # Return None if the player is not found
+
+# Example usage
+print(player_stats("Darius Garland"))
+
+
+def average_rebounds_by_shoe_brand():
+    teams = game_dict()
+    brand_rebounds = {}
+
+    for team in teams.values():
+        for player in team['players']:
+            brand = player['shoe_brand']
+            rebounds = player['rebounds_per_game']
+            if brand in brand_rebounds:
+                brand_rebounds[brand].append(rebounds)
+            else:
+                brand_rebounds[brand] = [rebounds]
+
+    avg_rebounds_by_brand = {}
+    for brand, rebounds_list in brand_rebounds.items():
+        avg_rebounds_by_brand[brand] = sum(rebounds_list) / len(rebounds_list)
+
+    return avg_rebounds_by_brand
+
+# Example usage
+print(average_rebounds_by_shoe_brand())
+
+
+# def shared_jersey_numbers():
+#     home_players = game_dict()["home"]["players"]
+#     away_players = game_dict()["away"]["players"]
+
+#     home_numbers = [player["number"] for player in home_players]
+#     away_numbers = [player["number"] for player in away_players]
+
+#     shared_numbers = set(home_numbers) & set(away_numbers)
+
+#     if shared_numbers:
+#         return shared_numbers
+#     else:
+#         return None
+
+
+# print(shared_jersey_numbers())
+
+	
+
+
+
+def find_duplicate_jersey_numbers(team_data):
+    '''Finding duplicated jersey numbers'''
+    jersey_numbers = set()
+    duplicate_jersey_numbers = set()
+
+    for team in team_data.values():
+        for player in team['players']:
+            jersey_number = player['number']
+            if jersey_number in jersey_numbers:
+                duplicate_jersey_numbers.add(jersey_number)
+            else:
+                jersey_numbers.add(jersey_number)
+            
+
+    return duplicate_jersey_numbers
+
+duplicate_numbers = find_duplicate_jersey_numbers(game_dict())
+print("Duplicate jersey numbers:", duplicate_numbers)
